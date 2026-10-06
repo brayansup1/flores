@@ -2,58 +2,61 @@
 var audio = document.querySelector("audio");
 var lyrics = document.querySelector("#lyrics");
 
-// Array de objetos que contiene cada línea y su tiempo de aparición en segundos
 var lyricsData = [
-  { text: "PORQUE AMO LA MANERA EN LA QUE RIES", time: 3 },
-  { text: "Y AMO LAS COSAS TONTAS QUE ME DICES", time: 9.3 },
-  { text: "Y CUALQUIER COMENTARIO MALO QUE ME HAGAN SOBRE TI", time: 14.9 },
-  { text: "SERA IGNORADO...... PORQUE MI CORAZON ES TUYO", time: 20.9 },
-  { text: "ASI QUE NO TE PREOCUPES POR NADA", time: 25.9 },
-  { text: "LA GENTE SIEMPRE QUIERE ARRUINAR LAS COSAS QUE BRILLAN", time: 28.5},
-  { text: "Y LA VIDA HACE QUE EL AMOR PAREZCA DIFICIL", time: 33.5 },
-  { text: "NO TE PREOCUPES POR NADA", time: 38 },
-  { text: "LA GENTE SIEMPRE QUIERE ARRUINAR LAS COSAS QUE BRILLAN", time: 41.8 },
-  { text: "PERO YO SIEMPRE TE ELIGIRE A TI", time: 46 },
-  { text: "YO SIEMPRE TE ELIGIRE A TI♡", time: 49 },
-  { text: "LOS RIESGOS SON ALTOS... EL AGUA TURBULENTA", time: 56 },
-  { text: "PERO ESTE AMOR ES NUESTRO♡♡", time: 62.5 },
-  { text: "¡TE AMOOOOOOOOOOO!", time: 67.5 },
+  { text: "PORQUE AMO LA MANERA EN LA QUE RIES", time: 3, duration: 5 },
+  { text: "Y AMO LAS COSAS TONTAS QUE ME DICES", time: 9.3, duration: 5 },
+  { text: "Y CUALQUIER COMENTARIO MALO QUE ME HAGAN SOBRE TI", time: 14.9, duration: 5.5 },
+  { text: "SERA IGNORADO...... PORQUE MI CORAZON ES TUYO", time: 20.9, duration: 4.5 },
+  { text: "ASI QUE NO TE PREOCUPES POR NADA", time: 25.9, duration: 2.5 },
+  { text: "LA GENTE SIEMPRE QUIERE ARRUINAR LAS COSAS QUE BRILLAN", time: 28.5, duration: 4.8 },
+  { text: "Y LA VIDA HACE QUE EL AMOR PAREZCA DIFICIL", time: 33.5, duration: 4.2 },
+  { text: "NO TE PREOCUPES POR NADA", time: 38, duration: 3.5 },
+  { text: "LA GENTE SIEMPRE QUIERE ARRUINAR LAS COSAS QUE BRILLAN", time: 41.8, duration: 4 },
+  { text: "PERO YO SIEMPRE TE ELIGIRE A TI", time: 46, duration: 2.8 },
+  { text: "YO SIEMPRE TE ELIGIRE A TI♡", time: 49, duration: 6 },
+  { text: "LOS RIESGOS SON ALTOS... EL AGUA TURBULENTA", time: 56, duration: 6 },
+  { text: "PERO ESTE AMOR ES NUESTRO♡♡", time: 62.5, duration: 4.8 },
+  { text: "¡TE AMOOOOOOOOOOO!", time: 67.5, duration: 6 }
 ];
 
-// Animar las letras
 function updateLyrics() {
-  var time = Math.floor(audio.currentTime);
+  if (!audio || !lyrics) return;
+  
+  var currentTime = audio.currentTime;
   var currentLine = lyricsData.find(
-    (line) => time >= line.time && time < line.time + 4.5
+    (line) => currentTime >= line.time && currentTime < (line.time + line.duration)
   );
 
   if (currentLine) {
-    // Calcula la opacidad basada en el tiempo en la línea actual
-    var fadeInDuration = 0.1; // Duración del efecto de aparición en segundos
-    var opacity = Math.min(1, (time - currentLine.time) / fadeInDuration);
+    var fadeInDuration = 0.5; // Transición suave de 0.5s
+    var timeInLine = currentTime - currentLine.time;
+    var opacity = Math.min(1, timeInLine / fadeInDuration);
 
-    // Aplica el efecto de aparición
     lyrics.style.opacity = opacity;
     lyrics.innerHTML = currentLine.text;
   } else {
-    // Restablece la opacidad y el contenido si no hay una línea actual
     lyrics.style.opacity = 0;
     lyrics.innerHTML = "";
   }
+
+  requestAnimationFrame(updateLyrics);
 }
 
-setInterval(updateLyrics, 1000);
+// Iniciar actualización al reproducir
+audio.addEventListener("play", () => {
+  requestAnimationFrame(updateLyrics);
+});
 
-//funcion titulo
-// Función para ocultar el título después de 216 segundos
+// Ocultar título automáticamente
 function ocultarTitulo() {
   var titulo = document.querySelector(".titulo");
-  titulo.style.animation =
-    "fadeOut 3s ease-in-out forwards"; /* Duración y función de temporización de la desaparición */
-  setTimeout(function () {
-    titulo.style.display = "none";
-  }, 3000); // Espera 3 segundos antes de ocultar completamente
+  if (titulo) {
+    titulo.style.transition = "opacity 3s ease";
+    titulo.style.opacity = "0";
+    setTimeout(() => {
+      titulo.style.display = "none";
+    }, 3000);
+  }
 }
 
-// Llama a la función después de 216 segundos (216,000 milisegundos)
 setTimeout(ocultarTitulo, 216000);
