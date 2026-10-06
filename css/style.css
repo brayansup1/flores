@@ -1,0 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,700;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', cursive, sans-serif;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+}
+
+body {
+    color: azure;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
+    overflow-x: hidden;
+    padding: 1.5rem 1rem;
+    position: relative;
+}
+
+/* Contenedor Principal Centrado */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    z-index: 2;
+    position: relative;
+}
+
+/* Botón Principal */
+.button {
+    margin-bottom: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.botones {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    outline: none;
+}
+
+.botones a {
+    display: inline-block;
+    background-color: #0a2be9;
+    color: #ffffff !important;
+    font-size: clamp(0.85rem, 3vw, 1.1rem);
+    font-weight: 700;
+    padding: 12px 28px;
+    border-radius: 80px;
+    text-decoration: none;
+    box-shadow: 0 0 15px rgba(10, 43, 233, 0.6);
+    transition: all 0.3s ease;
+    text-align: center;
+    max-width: 90vw;
+    word-break: break-word;
+}
+
+.botones a:hover,
+.botones a:focus {
+    background-color: rgb(50, 194, 194);
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(50, 194, 194, 0.8);
+}
+
+.botones a:active {
+    transform: scale(0.98);
+}
+
+/* Título de Bienvenida */
+.greetings {
+    font-size: clamp(2.2rem, 7.5vw + 0.5rem, 6rem);
+    font-weight: 900;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    word-break: break-word;
+}
+
+.greetings > span {
+    display: inline-block;
+    animation: glow 3s ease-in-out infinite;
+    margin: 0 0.1em;
+}
+
+@keyframes glow {
+    0%, 100% {
+        color: #fff;
+        text-shadow: 0 0 12px #39c6d6, 0 0 40px #39c6d6, 0 0 80px #39c6d6;
+    }
+    10%, 90% {
+        color: #111;
+        text-shadow: none;
+    }
+}
+
+.greetings > span:nth-child(2) { animation-delay: .2s; }
+.greetings > span:nth-child(3) { animation-delay: .4s; }
+
+/* Subtítulo / Descripción */
+.description {
+    font-size: clamp(1rem, 3.5vw, 1.4rem);
+    font-weight: 600;
+    margin: 0 auto 2rem auto;
+    max-width: 700px;
+    width: 95%;
+    line-height: 1.5;
+    text-align: center;
+    color: #e0e0e0;
+    letter-spacing: 0.5px;
+}
+
+/* Corazones Animados (.loader y .loader2) */
+.loader,
+.loader2 {
+    position: absolute;
+    width: 7em;
+    height: 5em;
+    animation: beat 1s infinite;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.85;
+}
+
+.loader::before,
+.loader::after,
+.loader2::before,
+.loader2::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 50px;
+    height: 80px;
+    border-radius: 5em 5em 0 0;
+    animation: coldblue 1s infinite;
+}
+
+.loader::before,
+.loader2::before {
+    left: 50px;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+}
+
+.loader::after,
+.loader2::after {
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+}
+
+@keyframes beat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+@keyframes coldblue {
+    0%, 100% { background-color: rgb(255, 255, 255); }
+    50% { background-color: rgb(198, 23, 23); }
+}
+
+/* Ubicación adaptable de los corazones según tamaño de pantalla */
+
+/* Computadoras / Pantallas Grandes (> 992px) */
+@media screen and (min-width: 992px) {
+    .loader {
+        top: 32%;
+        left: 8%;
+        transform: translate(-50%, -50%) scale(1.5);
+    }
+    .loader2 {
+        top: 32%;
+        left: 88%;
+        transform: translate(-50%, -50%) scale(1.5);
+    }
+}
+
+/* Tabletas / Laptops medianas (600px - 991px) */
+@media screen and (min-width: 600px) and (max-width: 991px) {
+    .loader {
+        top: 25%;
+        left: 5%;
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+    .loader2 {
+        top: 25%;
+        left: 91%;
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+}
+
+/* Celulares / Pantallas Pequeñas (< 599px) */
+@media screen and (max-width: 599px) {
+    .loader {
+        top: 15px;
+        left: 15px;
+        right: auto;
+        transform: scale(0.55);
+    }
+    .loader2 {
+        top: 15px;
+        right: 15px;
+        left: auto;
+        transform: scale(0.55);
+    }
+}
+
+/* Adaptación para teléfonos en orientación horizontal o pantallas cortas (< 550px alto) */
+@media screen and (max-height: 550px) {
+    body {
+        padding: 1rem 0.5rem;
+    }
+    .greetings {
+        margin-bottom: 0.75rem;
+    }
+    .description {
+        margin-bottom: 1rem;
+    }
+    .button {
+        margin-bottom: 1rem;
+    }
+    .footer-text {
+        margin-top: 0.5rem;
+    }
+    .loader {
+        top: 10px;
+        left: 10px;
+        transform: scale(0.45);
+    }
+    .loader2 {
+        top: 10px;
+        right: 10px;
+        transform: scale(0.45);
+    }
+}
+
+/* Pie de página */
+.footer-text {
+    display: block;
+    text-align: center;
+    margin-top: 1rem;
+    font-size: clamp(0.85rem, 3vw, 1.25rem);
+    font-weight: bold;
+    color: rgb(243, 240, 240);
+    line-height: 1.4;
+    text-shadow: 0 0 10px rgba(225, 62, 62, 0.8), 
+                 0 0 20px rgba(216, 32, 32, 0.6),
+                 0 0 30px rgba(231, 57, 83, 0.4);
+    max-width: 90vw;
+}
