@@ -141,18 +141,33 @@
 
     <script src="effects.js"></script>
     <script>
-        // Iniciar la canción desde el segundo 28
         const music = document.getElementById('bg-music');
-        music.addEventListener('canplay', function handler() {
-            music.currentTime = 28;
-            music.play().catch(() => { });
-            music.removeEventListener('canplay', handler);
+
+        music.volume = 1;
+        music.currentTime = 28;
+
+        // Intentar reproducir automáticamente
+        music.play().catch(() => {
+            console.log("Autoplay bloqueado. Esperando interacción del usuario.");
         });
-        // Por si ya estaba listo antes del evento
-        if (music.readyState >= 3) {
+
+        // Si el navegador bloquea el autoplay,
+        // la canción comenzará al primer clic/touch.
+        function startMusic() {
             music.currentTime = 28;
-            music.play().catch(() => { });
+
+            music.play().then(() => {
+                console.log("🎵 Música reproduciéndose");
+            }).catch(error => {
+                console.log("No se pudo reproducir:", error);
+            });
+
+            document.removeEventListener('click', startMusic);
+            document.removeEventListener('touchstart', startMusic);
         }
+
+        document.addEventListener('click', startMusic);
+        document.addEventListener('touchstart', startMusic);
     </script>
 </body>
 
