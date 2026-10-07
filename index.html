@@ -11,14 +11,32 @@
 </head>
 
 <body>
+    <!-- Audio de fondo: Ama de mi sol -->
+    <audio id="bg-music" src="sound/Ama de mi sol.mp3" autoplay loop></audio>
+    <!-- Stickers decorativos flotantes Bubu & Dudu (Superiores e Inferiores) -->
+    <div class="bubu-sticker sticker-top-left">
+        <img src="img/bubu 2.gif" alt="Bubu & Dudu Cute">
+    </div>
+    <div class="bubu-sticker sticker-top-right">
+        <img src="img/bubu 3.gif" alt="Bubu & Dudu Love">
+    </div>
+
+    <div class="bubu-sticker sticker-bottom-left">
+        <img src="img/bubu 3.gif" alt="Bubu & Dudu Cute Bottom">
+    </div>
+    <div class="bubu-sticker sticker-bottom-right">
+        <img src="img/bubu 2.gif" alt="Bubu & Dudu Love Bottom">
+    </div>
+
     <main class="main-container">
+        <!-- Encabezado con Corazones -->
         <div class="greetings-container">
             <div class="loader"></div>
-            
+
             <h1 class="greetings">
                 <span>¡TE</span>
                 <span>AMO</span>
-                <span>MUCHO!</span>
+                <span>MUCHO MI NIÑA &lt;3</span>
             </h1>
 
             <div class="loader2"></div>
@@ -28,14 +46,114 @@
             <span>MI NIÑA PRECIOSA, ¿QUISIERAS ACOMPAÑARME TODA LA VIDA?</span>
         </p>
 
+        <!-- Botón de Abrir Carta Romántica -->
+        <div class="letter-trigger-container">
+            <button id="open-letter-btn" class="letter-btn">
+                <span class="letter-icon">💌</span>
+                <span>Cartita pa mi noviecita</span>
+            </button>
+        </div>
+
+        <!-- Galería de Fotos Polaroid -->
+        <section class="polaroid-section">
+            <h2 class="polaroid-title">Mi Noviecita preciosa 💕</h2>
+
+            <div class="bubu-accent-wrapper">
+                <img src="img/bubu4.gif" class="bubu-gif" alt="Bubu Dudu Amor">
+            </div>
+
+            <div class="polaroid-grid">
+                <div class="polaroid-card card-1">
+                    <div class="tape"></div>
+                    <div class="polaroid-img-wrapper">
+                        <img src="img/jungwojay.jpeg" alt="Foto juntos 1">
+                    </div>
+                    <div class="polaroid-caption">Juntos es mi lugar favorito 💕</div>
+                </div>
+
+                <div class="polaroid-card card-2">
+                    <div class="tape"></div>
+                    <div class="polaroid-img-wrapper">
+                        <img src="img/noviecita1.jpg" alt="Foto juntos 2">
+                    </div>
+                    <div class="polaroid-caption">Mi Noviecita preciosa 💖</div>
+                </div>
+
+                <div class="polaroid-card card-3">
+                    <div class="tape"></div>
+                    <div class="polaroid-img-wrapper">
+                        <img src="img/novio.jpg" alt="Foto juntos 3">
+                    </div>
+                    <div class="polaroid-caption">El Novio baboso 💖</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Botón de flores -->
         <div class="button">
             <button class="botones">
-                <a href="flower.html">SI(NO HAY MÁS OPCIONES)</a>
+                <a href="flower.html">SI(NO HAY MÁS OPCIONES) 🌸</a>
             </button>
         </div>
 
         <span class="footer-text">Creado con mucho amor, para mi niña preciosa Nini&lt;3</span>
+        <span class="footer-text">Felices 3 meses mi vida&lt;3</span>
     </main>
+
+    <!-- Modal de Carta Romántica -->
+    <div id="letter-overlay" class="modal-overlay">
+        <div class="letter-modal">
+            <button id="close-letter-btn" class="close-btn">&times;</button>
+            <div class="letter-content">
+                <div class="letter-header">
+                    <span class="stamp">💌</span>
+                    <h3>Para mi niña preciosa Nini 💕</h3>
+                </div>
+                <div class="letter-body">
+                    <p>Mi amor,</p>
+                    <p>Desde el primer momento en que llegaste a mi vida, todo se volvió más brillante y hermoso tu
+                        sonrisa tiene el poder de alegrar cualquier día gris, y cada momento a tu lado es un regalo que
+                        valoro más que nada en este mundo, me siento el hombre mas afortunado por tener a una niña tan
+                        maravillosa y unica como tu gracias por darme tanto amor de manera incondicional, gracias por
+                        aceptarme tal y como soy</p>
+                    <p>Te amo con todo mi corazón, con cada aliento y cada latido y nunca me cansare de amarte, eres lo
+                        unico que quiero en esta vida realmente me haces muy feliz ya son 3 meses a tu lado y cada dia
+                        que pasa me sigo enamorando mas de ti, siempre voy a estar para ti en las buenas, en las malas y
+                        en las peores,mi niña preciosa moshaa, mi compañera
+                        perfecta, mi todo. Prometo cuidarte, hacerte sonreír y acompañarte siempre
+                    </p>
+                    <p class="letter-signature">Con todo mi amor eterno,<br><strong>Tu niño baboso que te ama
+                            infinitamente
+                            ❤️</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Visor de Foto Polaroid -->
+    <div id="photo-overlay" class="modal-overlay">
+        <div class="photo-modal">
+            <button id="close-photo-btn" class="close-btn">&times;</button>
+            <img id="photo-modal-img" src="" alt="Vista ampliada">
+            <p id="photo-modal-caption" class="photo-modal-caption"></p>
+        </div>
+    </div>
+
+    <script src="effects.js"></script>
+    <script>
+        // Iniciar la canción desde el segundo 28
+        const music = document.getElementById('bg-music');
+        music.addEventListener('canplay', function handler() {
+            music.currentTime = 28;
+            music.play().catch(() => { });
+            music.removeEventListener('canplay', handler);
+        });
+        // Por si ya estaba listo antes del evento
+        if (music.readyState >= 3) {
+            music.currentTime = 28;
+            music.play().catch(() => { });
+        }
+    </script>
 </body>
 
 </html>
