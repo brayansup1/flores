@@ -6,45 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/main.css" />
     <link rel="icon" href="img/flowers.png" type="image/x-icon" />
-    <title>Flower</title>
+    <title>Can't Help Falling in Love - Flores</title>
   </head>
   <body class="container">
-    <audio id="flower-music" src="sound/AMORR AA.mp3" preload="auto"></audio>
-
-    <!-- ===== FONDO ANIMADO "TE AMO" ===== -->
-    <div class="te-amo-bg" aria-hidden="true" id="te-amo-bg"></div>
+    <audio id="flower-music" src="sound/Cant Help Falling in Love.mp3" preload="auto"></audio>
 
     <!-- Selector de Canciones -->
     <div class="song-switcher">
-      <button id="btn-song-until" class="song-tab active" data-song="until" title="Reproducir Until I Found You">
+      <button id="btn-song-until" class="song-tab" data-song="until" title="Reproducir Until I Found You">
         <span class="tab-icon">✨</span>
         <span class="tab-title">Until I Found You</span>
       </button>
-      <button id="btn-song-elvis" class="song-tab" data-song="elvis" title="Reproducir Can't Help Falling in Love">
+      <button id="btn-song-elvis" class="song-tab active" data-song="elvis" title="Reproducir Can't Help Falling in Love">
         <span class="tab-icon">🌹</span>
         <span class="tab-title">Can't Help Falling in Love</span>
       </button>
     </div>
 
-    <!-- Dedicatoria que se desvanece antes de que inicie la voz cantada -->
-    <h1 class="titulo">Mi amor, soy muy afortunado de tenerte en mi vida. A tu lado, cada día es una bendición, y no puedo imaginar un futuro sin ti. Eres la mujer de mi vida, mi todo, y te amare hoy, mañana y siempre. Te amo, mi niña hermosa.</h1>
+    <!-- Dedicatoria que se desvanece suavemente -->
+    <h1 class="titulo">Para el amor de mi vida... A tu lado cada segundo es mágico. Te amaré hoy, mañana y siempre.</h1>
 
     <!-- Letras sincronizadas dinámicas alrededor de las flores -->
     <div id="lyrics-display" class="lyrics-wrapper"></div>
     <div class="night"></div>
-
-    <!-- ===== IMAGEN GATITOS (esquina inferior izquierda) ===== -->
-    <img
-      src="img/cats.png"
-      alt="Gatitos enamorados"
-      class="deco-cats"
-      draggable="false"
-    />
-
-    <!-- ===== STICKERS DECORATIVOS (dispersos por la página) ===== -->
-    <img src="img/te amo1.png"        alt="Te amo"          class="sticker sticker--tamo1"   draggable="false" />
-    <img src="img/te amo 2.png"       alt="Te amo 2"        class="sticker sticker--tamo2"   draggable="false" />
-    <img src="img/i only love my girl.png" alt="My Girl"   class="sticker sticker--mygirl" draggable="false" />
     <div class="flowers">
       <div class="flower flower--1">
         <div class="flower__leafs flower__leafs--1">
@@ -356,61 +340,5 @@
     </div>
     <script src="anim.js"></script>
     <script src="main.js"></script>
-
-    <!-- ===== SCRIPT: Burbujas "Te Amo" flotantes ===== -->
-    <script>
-      (function () {
-        const container = document.getElementById('te-amo-bg');
-        if (!container) return;
-
-        const phrases = [
-          'te amo', 'Te Amo ♥', 'I Love You', 'mi amor',
-          'te amo mucho', '♡', '♥', 'siempre',
-          'te amo', 'forever', 'Te Amo 💕', 'mi niña',
-        ];
-
-        const sizes    = ['1.1rem', '1.4rem', '1.8rem', '2.4rem', '3rem', '1rem'];
-        const durations = [9, 11, 13, 15, 17, 20];
-        const colors   = [
-          'rgba(255,120,160,0.55)',
-          'rgba(255,170,210,0.45)',
-          'rgba(255,215,230,0.50)',
-          'rgba(255,200,100,0.40)',
-          'rgba(255,100,180,0.50)',
-        ];
-
-        function createBubble() {
-          const el = document.createElement('span');
-          el.className = 'te-amo-bubble';
-          el.textContent = phrases[Math.floor(Math.random() * phrases.length)];
-
-          const left   = Math.random() * 95;
-          const size   = sizes[Math.floor(Math.random() * sizes.length)];
-          const dur    = durations[Math.floor(Math.random() * durations.length)];
-          const delay  = Math.random() * -dur;           // arranca ya en algún punto
-          const rot    = (Math.random() - 0.5) * 40;
-          const color  = colors[Math.floor(Math.random() * colors.length)];
-
-          el.style.left              = left + '%';
-          el.style.fontSize          = size;
-          el.style.animationDuration = dur + 's';
-          el.style.animationDelay    = delay + 's';
-          el.style.setProperty('--rot', rot + 'deg');
-          el.style.webkitTextStroke  = '1.2px ' + color;
-          el.style.textShadow        = '0 0 10px ' + color;
-
-          container.appendChild(el);
-
-          // Reciclar la burbuja al terminar
-          el.addEventListener('animationiteration', () => {
-            el.style.left = Math.random() * 95 + '%';
-          });
-        }
-
-        // Crear una cantidad moderada de burbujas
-        const count = window.innerWidth < 600 ? 10 : 22;
-        for (let i = 0; i < count; i++) createBubble();
-      })();
-    </script>
   </body>
 </html>

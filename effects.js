@@ -1,9 +1,10 @@
 // Sistema de efectos románticos y lluvia de corazones/pétalos
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Solo activar los pétalos/emojis en index.html, no en flower.html
-    const isFlowerPage = window.location.pathname.endsWith("flower.html");
-    if (!isFlowerPage) {
+    // Solo activar los pétalos/emojis en index.html, NUNCA en flower.html
+    const path = (window.location.pathname || "").toLowerCase();
+    const isFlowerPage = path.includes("flower") || document.querySelector(".flowers") !== null;
+    if (!isFlowerPage && document.querySelector(".main-container")) {
         initFloatingPetals();
     }
     initLetterModal();

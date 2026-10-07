@@ -11,8 +11,31 @@
 </head>
 
 <body>
+    <!-- Fondo Artístico Van Gogh: Cielo Estrellado (arriba) y Girasoles (abajo) -->
+    <div class="vangoh-canvas-bg" aria-hidden="true">
+        <div class="vangoh-sky-strip">
+            <img src="img/vangoh.png" alt="" draggable="false">
+        </div>
+        <div class="vangoh-sunflowers-strip">
+            <img src="img/Girasoles.png" alt="" draggable="false">
+        </div>
+        <div class="vangoh-atmosphere-overlay"></div>
+    </div>
+
     <!-- Audio de fondo: Ama de mi sol -->
-    <audio id="bg-music" src="sound/Ama de mi sol.mp3" autoplay loop></audio>
+    <audio id="bg-music" src="sound/Ama de mi sol.mp3" preload="auto" loop></audio>
+
+    <!-- Control de música flotante interactivo -->
+    <div class="music-floating-container">
+        <button id="music-toggle-btn" class="music-btn" title="Controlar música" aria-label="Controlar música">
+            <span class="music-icon">🎵</span>
+            <span class="music-text">Ama de mi sol</span>
+            <div class="music-bars">
+                <span></span><span></span><span></span>
+            </div>
+        </button>
+    </div>
+
     <!-- Stickers decorativos flotantes Bubu & Dudu (Superiores e Inferiores) -->
     <div class="bubu-sticker sticker-top-left">
         <img src="img/bubu 2.gif" alt="Bubu & Dudu Cute">
@@ -54,6 +77,12 @@
             </button>
         </div>
 
+        <!-- Dúo Romántico: Favorite Person encima de imagen personas -->
+        <div class="favorite-personas-card" id="favorite-personas-deco">
+            <img src="img/Favorite Person.png" class="deco-favorite-person" alt="Favorite Person">
+            <img src="img/personas.png" class="deco-personas" alt="Pareja bailando">
+        </div>
+
         <!-- Galería de Fotos Polaroid -->
         <section class="polaroid-section">
             <h2 class="polaroid-title">Mi Noviecita preciosa 💕</h2>
@@ -89,6 +118,24 @@
             </div>
         </section>
 
+        <!-- Tarjeta Romántica Especial: Definición de Mi Niña -->
+        <div class="definition-showcase-container">
+            <div class="polaroid-card definition-card">
+                <div class="tape"></div>
+                <div class="definition-card-tag">📖 Según el diccionario...</div>
+                <div class="polaroid-img-wrapper definition-img-wrapper">
+                    <img src="img/my gf2.png" alt="Definición de Mi Novia">
+                </div>
+                <div class="polaroid-caption">Todas las palabras bonitas apuntan a ti 💕</div>
+                <div class="polaroid-hint">🔍 Toca para ver en grande</div>
+            </div>
+        </div>
+
+        <!-- Snoopy ofreciendo flores -->
+        <div class="snoopy-card" id="snoopy-deco">
+            <img src="img/snoopy.png" class="deco-snoopy" alt="Snoopy con flores">
+        </div>
+
         <!-- Botón de flores -->
         <div class="button">
             <button class="botones">
@@ -98,6 +145,7 @@
 
         <span class="footer-text">Creado con mucho amor, para mi niña preciosa Nini&lt;3</span>
         <span class="footer-text">Felices 3 meses mi vida&lt;3</span>
+        <span class="footer-text">7/7/26&lt;3</span>
     </main>
 
     <!-- Modal de Carta Romántica -->
@@ -115,7 +163,9 @@
                         sonrisa tiene el poder de alegrar cualquier día gris, y cada momento a tu lado es un regalo que
                         valoro más que nada en este mundo, me siento el hombre mas afortunado por tener a una niña tan
                         maravillosa y unica como tu gracias por darme tanto amor de manera incondicional, gracias por
-                        aceptarme tal y como soy</p>
+                        aceptarme tal y como soy, te quiero tal cual como eres, con todo lo bueno que no ves y con todo
+                        lo malo que dices tener.
+                    </p>
                     <p>Te amo con todo mi corazón, con cada aliento y cada latido y nunca me cansare de amarte, eres lo
                         unico que quiero en esta vida realmente me haces muy feliz ya son 3 meses a tu lado y cada dia
                         que pasa me sigo enamorando mas de ti, siempre voy a estar para ti en las buenas, en las malas y
@@ -142,32 +192,87 @@
     <script src="effects.js"></script>
     <script>
         const music = document.getElementById('bg-music');
+        const musicToggleBtn = document.getElementById('music-toggle-btn');
+        let isAudioPlaying = false;
 
-        music.volume = 1;
-        music.currentTime = 28;
-
-        // Intentar reproducir automáticamente
-        music.play().catch(() => {
-            console.log("Autoplay bloqueado. Esperando interacción del usuario.");
-        });
-
-        // Si el navegador bloquea el autoplay,
-        // la canción comenzará al primer clic/touch.
-        function startMusic() {
-            music.currentTime = 28;
-
-            music.play().then(() => {
-                console.log("🎵 Música reproduciéndose");
-            }).catch(error => {
-                console.log("No se pudo reproducir:", error);
-            });
-
-            document.removeEventListener('click', startMusic);
-            document.removeEventListener('touchstart', startMusic);
+        function setStartTime() {
+            try {
+                if (music && music.currentTime < 28) {
+                    music.currentTime = 28;
+                }
+            } catch (e) { }
         }
 
-        document.addEventListener('click', startMusic);
-        document.addEventListener('touchstart', startMusic);
+        function updateMusicUI(playing) {
+            isAudioPlaying = playing;
+            if (musicToggleBtn) {
+                if (playing) {
+                    musicToggleBtn.classList.add('playing');
+                } else {
+                    musicToggleBtn.classList.remove('playing');
+                }
+            }
+        }
+
+        function playMusic() {
+            if (!music) return;
+            setStartTime();
+            music.volume = 1;
+            const playPromise = music.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    updateMusicUI(true);
+                    console.log("🎵 Música reproduciéndose exitosamente");
+                }).catch(error => {
+                    updateMusicUI(false);
+                    console.log("Autoplay bloqueado temporalmente por navegador:", error);
+                });
+            }
+        }
+
+        // 1. Intentar reproducir de inmediato (PC y navegadores con permisos)
+        if (music.readyState >= 1) {
+            setStartTime();
+            playMusic();
+        } else {
+            music.addEventListener('loadedmetadata', () => {
+                setStartTime();
+                playMusic();
+            }, { once: true });
+        }
+        window.addEventListener('load', playMusic);
+
+        // 2. Activación garantizada en móviles / navegadores estrictos:
+        // Se activa con el primer toque, clic o interacción en cualquier parte de la pantalla
+        function triggerMusicOnFirstInteraction() {
+            if (!isAudioPlaying) {
+                playMusic();
+            }
+            cleanupInteractionListeners();
+        }
+
+        function cleanupInteractionListeners() {
+            ['click', 'touchstart', 'touchend', 'pointerdown', 'scroll', 'keydown'].forEach(evt => {
+                window.removeEventListener(evt, triggerMusicOnFirstInteraction, { capture: true });
+            });
+        }
+
+        ['click', 'touchstart', 'touchend', 'pointerdown', 'scroll', 'keydown'].forEach(evt => {
+            window.addEventListener(evt, triggerMusicOnFirstInteraction, { once: true, capture: true });
+        });
+
+        // 3. Botón para pausar o reanudar voluntariamente
+        if (musicToggleBtn) {
+            musicToggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (music.paused) {
+                    playMusic();
+                } else {
+                    music.pause();
+                    updateMusicUI(false);
+                }
+            });
+        }
     </script>
 </body>
 

@@ -21,7 +21,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     background-color: #000;
     overflow-x: hidden;
     padding: 1.5rem 1rem;
@@ -138,6 +138,8 @@ body {
     width: 100%;
     max-width: 950px;
     margin: auto;
+    padding-top: clamp(3.5rem, 6vw, 4.8rem);
+    padding-bottom: 3rem;
     z-index: 5;
     position: relative;
 }
@@ -176,9 +178,9 @@ body {
         color: #fff;
         text-shadow: 0 0 12px #39c6d6, 0 0 40px #39c6d6, 0 0 80px #39c6d6;
     }
-    10%, 90% {
-        color: #111;
-        text-shadow: none;
+    50% {
+        color: #ffffff;
+        text-shadow: 0 0 6px #39c6d6, 0 0 18px rgba(57, 198, 214, 0.7);
     }
 }
 
@@ -326,6 +328,76 @@ body {
     font-size: 0.8rem;
     color: #aaaaaa;
     font-style: italic;
+}
+
+/* =============================================
+   TARJETA DESTACADA: DEFINICIÓN DE MI NIÑA
+   ============================================= */
+.definition-showcase-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 1rem 0 2.2rem 0;
+    position: relative;
+    z-index: 6;
+}
+
+.definition-card {
+    width: clamp(280px, 85vw, 360px);
+    background: #ffffff;
+    padding: 14px 14px 20px 14px;
+    border-radius: 6px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 105, 180, 0.35);
+    cursor: pointer;
+    transition: all 0.4s ease;
+    position: relative;
+    text-align: center;
+    transform: rotate(1deg);
+}
+
+.definition-card:hover {
+    transform: rotate(0deg) scale(1.04);
+    box-shadow: 0 18px 40px rgba(255, 77, 109, 0.55), 0 0 25px rgba(255, 255, 255, 0.6);
+}
+
+.definition-card-tag {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #c9184a;
+    background: #ffe5ec;
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 6px rgba(201, 24, 74, 0.12);
+}
+
+.definition-img-wrapper {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 4px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #f0e6e6;
+}
+
+.definition-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    background: #ffffff;
+    transition: transform 0.4s ease;
+}
+
+.definition-card:hover .definition-img-wrapper img {
+    transform: scale(1.03);
 }
 
 /* Botón Principal */
@@ -584,124 +656,106 @@ body {
     max-width: 90vw;
 }
 
-/* =============================================
-   IMÁGENES DECORATIVAS (usuario)
-   ============================================= */
-.deco-img {
+/* ===================================================
+   FONDO ARTÍSTICO VAN GOGH: CIELO ESTRELLADO Y GIRASOLES
+   =================================================== */
+.vangoh-canvas-bg {
     position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     pointer-events: none;
     user-select: none;
-    z-index: 3;
-}
-.deco-img img {
-    display: block;
-    width: 100%;
-    height: auto;
-    object-fit: contain;
+    z-index: 0; /* Exclusivamente de fondo, detrás de todo el contenido */
+    overflow: hidden;
 }
 
-/* 🌻 Girasoles — franja inferior */
-.deco-girasoles {
-    bottom: 0;
+/* 🌌 Cielo Estrellado de Van Gogh — Borde Superior
+   La imagen tiene fondo blanco con remolinos azules en la PARTE SUPERIOR,
+   la zona inferior blanca se disuelve suavemente en negro. */
+.vangoh-sky-strip {
+    position: absolute;
+    top: 0;
     left: 0;
     width: 100%;
-    height: clamp(180px, 25vh, 280px);
-    overflow: hidden;
-    opacity: 0.92;
-    filter: brightness(0.92) saturate(1.1);
-    z-index: 3;
+    /* sin altura fija — el div toma el tamaño natural de la imagen */
+    overflow: visible;
+    opacity: 0.58;
+    filter: saturate(1.25) brightness(0.85);
+    /* máscara: totalmente visible arriba, desvanece suavemente hacia el centro */
+    mask-image: linear-gradient(to bottom,
+        rgba(0,0,0,1)    0%,
+        rgba(0,0,0,1)   50%,
+        rgba(0,0,0,0.4) 75%,
+        rgba(0,0,0,0)  100%);
+    -webkit-mask-image: linear-gradient(to bottom,
+        rgba(0,0,0,1)    0%,
+        rgba(0,0,0,1)   50%,
+        rgba(0,0,0,0.4) 75%,
+        rgba(0,0,0,0)  100%);
 }
-.deco-girasoles img {
+
+.vangoh-sky-strip img {
     width: 100%;
-    height: 100%;
+    height: auto;          /* imagen completa, sin recortes */
     display: block;
+    max-height: 48vh;      /* límite para pantallas muy altas */
     object-fit: cover;
     object-position: top center;
 }
 
-/* 🌌 Van Gogh — franja superior */
-.deco-vangoh {
-    top: 0;
+/* 🌻 Girasoles de Van Gogh — Borde Inferior
+   La imagen tiene girasoles en la PARTE INFERIOR y área blanca en la parte superior.
+   Usamos position:absolute bottom:0 con la imagen anclada abajo para que los girasoles
+   siempre emerjan desde el borde inferior de la pantalla sin cortes. */
+.vangoh-sunflowers-strip {
+    position: absolute;
+    bottom: 0;
     left: 0;
     width: 100%;
-    height: clamp(180px, 25vh, 280px);
-    overflow: hidden;
-    opacity: 0.88;
-    filter: brightness(0.88) saturate(1.15);
-    z-index: 3;
+    /* sin altura fija — el div toma el tamaño natural de la imagen */
+    overflow: visible;
+    opacity: 0.82;
+    filter: saturate(1.25) brightness(0.92);
+    /* máscara: totalmente visible abajo, desvanece suavemente hacia arriba */
+    mask-image: linear-gradient(to top,
+        rgba(0,0,0,1)    0%,
+        rgba(0,0,0,1)   52%,
+        rgba(0,0,0,0.4) 78%,
+        rgba(0,0,0,0)  100%);
+    -webkit-mask-image: linear-gradient(to top,
+        rgba(0,0,0,1)    0%,
+        rgba(0,0,0,1)   52%,
+        rgba(0,0,0,0.4) 78%,
+        rgba(0,0,0,0)  100%);
 }
-.deco-vangoh img {
+
+.vangoh-sunflowers-strip img {
     width: 100%;
-    height: 100%;
+    height: auto;          /* imagen completa, sin recortes */
     display: block;
+    max-height: 52vh;      /* límite para pantallas muy altas */
     object-fit: cover;
     object-position: bottom center;
 }
 
-/* 💑 Pareja vintage — lateral izquierdo, zona media-alta */
-.deco-personas {
-    top: 28%;
-    left: -35px;
-    width: clamp(110px, 13vw, 190px);
-    opacity: 0.55;
-    filter: brightness(0.8) contrast(1.1) sepia(15%);
-    animation: deco-sway 12s ease-in-out infinite;
-}
-
-/* 🐶 Snoopy — inferior derecha */
-.deco-snoopy {
-    bottom: 10px;
-    right: 10px;
-    width: clamp(100px, 12vw, 175px);
-    opacity: 0.88;
-    filter: drop-shadow(0 4px 16px rgba(255,150,180,0.35));
-    animation: deco-bob 7s ease-in-out infinite;
-}
-
-/* ✍️ Favorite Person — superior izquierda */
-.deco-favorite {
-    top: 80px;
-    left: 10px;
-    width: clamp(100px, 13vw, 185px);
-    opacity: 0.85;
-    filter: drop-shadow(0 3px 10px rgba(180,60,60,0.3));
-    transform: rotate(-6deg);
-    animation: deco-tilt 9s ease-in-out infinite;
-}
-
-/* Animaciones sutiles */
-@keyframes deco-float-slow {
-    0%, 100% { transform: translateY(0px); }
-    50%       { transform: translateY(-6px); }
-}
-
-@keyframes deco-sway {
-    0%, 100% { transform: translateX(0px) rotate(0deg); }
-    50%       { transform: translateX(6px) rotate(1deg); }
-}
-
-@keyframes deco-bob {
-    0%, 100% { transform: translateY(0px); }
-    50%       { transform: translateY(-8px); }
-}
-
-@keyframes deco-tilt {
-    0%, 100% { transform: rotate(-6deg) translateY(0px); }
-    50%       { transform: rotate(-4deg) translateY(-6px); }
-}
-
-/* Responsive — pantallas pequeñas */
-@media (max-width: 768px) {
-    .deco-personas { display: none; }
-    .deco-girasoles { width: 170px; opacity: 0.65; }
-    .deco-vangoh    { width: 180px; opacity: 0.60; }
-    .deco-snoopy    { width: 90px; }
-    .deco-favorite  { width: 90px; top: 60px; }
-}
-
-@media (max-width: 480px) {
-    .deco-vangoh   { display: none; }
-    .deco-girasoles { width: 140px; }
+/* Viñeta central suave para fundir ambas imágenes con el negro del medio */
+.vangoh-atmosphere-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        /* sombra lateral izquierda y derecha */
+        linear-gradient(to right,
+            rgba(0,0,0,0.45) 0%,
+            rgba(0,0,0,0)   18%,
+            rgba(0,0,0,0)   82%,
+            rgba(0,0,0,0.45) 100%),
+        /* oscurecimiento central-medio */
+        radial-gradient(ellipse at 50% 50%,
+            rgba(0,0,0,0.05)  0%,
+            rgba(0,0,0,0.60) 100%);
+    pointer-events: none;
 }
 
 .vintage-decor {
@@ -824,5 +878,215 @@ body {
     .vintage-roses-right {
         width: 120px;
         opacity: 0.35;
+    }
+}
+
+/* ===================================================
+   CONTROLADOR DE MÚSICA FLOTANTE (Ama de mi sol)
+   =================================================== */
+.music-floating-container {
+    position: fixed;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+}
+
+.music-btn {
+    background: rgba(18, 18, 28, 0.85);
+    border: 1.5px solid rgba(255, 105, 180, 0.5);
+    backdrop-filter: blur(10px);
+    color: #ffffff;
+    padding: 8px 18px;
+    border-radius: 40px;
+    font-size: clamp(0.78rem, 2.5vw, 0.9rem);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 18px rgba(255, 77, 109, 0.35);
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.music-btn:hover {
+    transform: scale(1.05);
+    border-color: rgba(255, 105, 180, 0.9);
+    box-shadow: 0 4px 25px rgba(255, 77, 109, 0.6);
+}
+
+.music-btn.playing {
+    border-color: #ff758f;
+    box-shadow: 0 0 20px rgba(255, 117, 143, 0.7);
+}
+
+.music-icon {
+    font-size: 1.05rem;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.music-btn.playing .music-icon {
+    animation: pulseMusicIcon 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulseMusicIcon {
+    from { transform: scale(1) rotate(-5deg); }
+    to { transform: scale(1.15) rotate(10deg); }
+}
+
+.music-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 2.5px;
+    height: 12px;
+}
+
+.music-bars span {
+    width: 2.5px;
+    height: 4px;
+    background: #ff758f;
+    border-radius: 2px;
+    transition: height 0.2s ease;
+}
+
+.music-btn.playing .music-bars span:nth-child(1) {
+    animation: barBounce 0.8s ease-in-out infinite alternate;
+}
+.music-btn.playing .music-bars span:nth-child(2) {
+    animation: barBounce 0.6s ease-in-out infinite alternate 0.15s;
+}
+.music-btn.playing .music-bars span:nth-child(3) {
+    animation: barBounce 0.9s ease-in-out infinite alternate 0.3s;
+}
+
+@keyframes barBounce {
+    0% { height: 3px; }
+    100% { height: 13px; }
+}
+
+/* ===================================================
+   DECORACIONES: Favorite Person, Personas y Snoopy
+   =================================================== */
+
+/* Dúo Romántico (Favorite Person encima de imagen Personas) */
+.favorite-personas-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    user-select: none;
+    transition: transform 0.4s ease;
+}
+
+.deco-favorite-person {
+    width: clamp(115px, 14vw, 150px);
+    height: auto;
+    margin-bottom: -16px; /* Montado exactamente encima de la imagen personas */
+    z-index: 3;
+    position: relative;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.45));
+    transform: rotate(-3deg);
+    transition: transform 0.3s ease;
+    pointer-events: auto;
+}
+
+.deco-personas {
+    width: clamp(125px, 15vw, 160px);
+    height: auto;
+    z-index: 2;
+    position: relative;
+    filter: drop-shadow(0 6px 14px rgba(255, 182, 193, 0.4));
+    transition: transform 0.3s ease;
+    pointer-events: auto;
+}
+
+.favorite-personas-card:hover .deco-favorite-person {
+    transform: rotate(0deg) scale(1.08);
+}
+
+.favorite-personas-card:hover .deco-personas {
+    transform: scale(1.05);
+}
+
+/* Snoopy con rosas */
+.snoopy-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    user-select: none;
+    transition: transform 0.4s ease;
+}
+
+.deco-snoopy {
+    width: clamp(115px, 14vw, 150px);
+    height: auto;
+    filter: drop-shadow(0 0 16px rgba(255, 105, 180, 0.6));
+    animation: gentleFloatSnoopy 3.5s ease-in-out infinite alternate;
+    transition: transform 0.3s ease;
+    pointer-events: auto;
+}
+
+.snoopy-card:hover .deco-snoopy {
+    transform: scale(1.1) rotate(5deg);
+}
+
+@keyframes gentleFloatSnoopy {
+    0% {
+        transform: translateY(0) rotate(-2deg);
+    }
+    100% {
+        transform: translateY(-8px) rotate(3deg);
+    }
+}
+
+/* En Desktop (>= 1250px): 
+   Situados en los bordes centrados verticalmente,
+   sin tapar texto en el centro ni tapar ningún gif en las esquinas */
+@media (min-width: 1250px) {
+    .favorite-personas-card {
+        position: fixed;
+        left: 32px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 12;
+        margin: 0;
+    }
+    
+    .favorite-personas-card:hover {
+        transform: translateY(-50%) scale(1.06);
+    }
+
+    .snoopy-card {
+        position: fixed;
+        right: 36px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 12;
+        margin: 0;
+    }
+
+    .snoopy-card:hover {
+        transform: translateY(-50%) scale(1.06);
+    }
+}
+
+/* En Móvil y Pantallas Medianas (< 1250px):
+   Integrados con armonía centrada en el flujo del documento,
+   sin tapar ningún texto ni sobreponerse a ningún gif */
+@media (max-width: 1249px) {
+    .favorite-personas-card {
+        position: relative;
+        margin: 1.2rem auto 1.5rem auto;
+        z-index: 5;
+    }
+
+    .snoopy-card {
+        position: relative;
+        margin: 1.2rem auto 0.8rem auto;
+        z-index: 5;
     }
 }

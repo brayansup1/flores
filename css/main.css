@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+
 *,
 *::after,
 *::before {
@@ -21,52 +23,361 @@ body {
   perspective: 1000px;
 }
 
-#lyrics {
-  font-size: 28px;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  color: white;
-  position: absolute;
-  margin-bottom: 20%;
-  z-index: 10;
-  font-weight: bold;
-  letter-spacing: 4px;
-  text-align: center;
+/* ===================================================
+   FONDO ANIMADO "TE AMO" — BURBUJAS FLOTANTES
+   =================================================== */
+.te-amo-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
 }
-@media only screen and (max-width: 600px) {
-  /* Estilos específicos para dispositivos con un ancho máximo de 600px */
-  #lyrics {
-      font-size: 16px;
-      margin-bottom: 530px;
-      letter-spacing: 3px;
+
+/* Cada burbuja es generada por JS, pero necesita estos estilos */
+.te-amo-bubble {
+  position: absolute;
+  bottom: -10%;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(255, 105, 180, 0.45);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  animation: bubbleRise linear infinite;
+  text-shadow: 0 0 12px rgba(255, 80, 140, 0.3);
+}
+
+@keyframes bubbleRise {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-110vh) rotate(var(--rot, 20deg)) scale(0.85);
+    opacity: 0;
+  }
+}
+
+/* ===================================================
+   GATITOS — esquina inferior izquierda
+   =================================================== */
+.deco-cats {
+  position: fixed;
+  bottom: 0;
+  left: -8px;
+  width: clamp(120px, 18vw, 210px);
+  z-index: 30;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 18px rgba(255, 105, 180, 0.55));
+  animation: catBob 3.8s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+@keyframes catBob {
+  0%, 100% { transform: translateY(0px) rotate(-1deg); }
+  50%       { transform: translateY(-7px) rotate(1deg); }
+}
+
+/* ===================================================
+   STICKERS DECORATIVOS — esquinas y laterales
+   =================================================== */
+.sticker {
+  position: fixed;
+  pointer-events: none;
+  z-index: 28;
+  opacity: 0;
+  animation: stickerFade 4s ease forwards;
+}
+
+@keyframes stickerFade {
+  0%   { opacity: 0; transform: scale(0.7) rotate(-5deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+/* "te amo 1" — esquina superior izquierda */
+.sticker--tamo1 {
+  top: 62px;
+  left: 12px;
+  width: clamp(80px, 12vw, 140px);
+  animation-delay: 0.8s;
+  filter: drop-shadow(0 2px 10px rgba(255, 100, 150, 0.5));
+  animation: stickerFade 4s 0.8s ease forwards, stickerFloat 5s 4.8s ease-in-out infinite;
+}
+
+/* "te amo 2" — esquina superior derecha */
+.sticker--tamo2 {
+  top: 62px;
+  right: 12px;
+  width: clamp(80px, 12vw, 140px);
+  animation-delay: 1.2s;
+  filter: drop-shadow(0 2px 10px rgba(255, 100, 150, 0.5));
+  animation: stickerFade 4s 1.2s ease forwards, stickerFloat 5.5s 5.2s ease-in-out infinite;
+}
+
+/* "i only love my girl" — lateral izquierdo, centro */
+.sticker--mygirl {
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  width: clamp(70px, 10vw, 120px);
+  animation-delay: 1.8s;
+  filter: drop-shadow(0 2px 10px rgba(255, 200, 100, 0.5));
+  animation: stickerFadeCenter 4s 1.8s ease forwards, stickerFloat 6s 5.8s ease-in-out infinite;
+}
+
+/* Responsive: en móvil, los stickers laterales se ocultan para no tapar texto */
+@media (max-width: 820px) {
+  .sticker--mygirl {
+    display: none;
+  }
+  .sticker--tamo1 {
+    top: 58px;
+    left: 4px;
+    width: clamp(55px, 15vw, 90px);
+  }
+  .sticker--tamo2 {
+    top: 58px;
+    right: 4px;
+    width: clamp(55px, 15vw, 90px);
+  }
+  .deco-cats {
+    width: clamp(85px, 24vw, 130px);
+  }
+}
+
+/* ===================================================
+   SELECTOR DE CANCIÓN ELEGANTE
+   =================================================== */
+.song-switcher {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  gap: 8px;
+  background: rgba(12, 18, 30, 0.82);
+  padding: 4px 6px;
+  border-radius: 40px;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 182, 193, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 15px rgba(255, 77, 109, 0.25);
+  user-select: none;
+}
+
+.song-tab {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.75);
+  padding: 7px 15px;
+  border-radius: 30px;
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(0.74rem, 2vw, 0.86rem);
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.song-tab:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  transform: scale(1.03);
+}
+
+.song-tab.active {
+  background: linear-gradient(135deg, #ff4d6d, #ff758f);
+  color: #ffffff;
+  box-shadow: 0 2px 14px rgba(255, 77, 109, 0.7);
+}
+
+.song-tab .tab-icon {
+  font-size: 0.95rem;
+}
+
+/* ===================================================
+   LETRAS FLOTANTES POR LOS LADOS DE LA FLOR
+   =================================================== */
+.lyrics-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 40;
+}
+
+.lyric-card {
+  position: absolute;
+  max-width: 370px;
+  padding: 12px 18px;
+  background: rgba(10, 16, 28, 0.78);
+  border: 1px solid rgba(255, 182, 193, 0.35);
+  border-radius: 18px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.65), 0 0 22px rgba(255, 105, 180, 0.3);
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: none;
+}
+
+.lyric-card.visible {
+  opacity: 1;
+}
+
+.lyric-main {
+  display: block;
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(0.95rem, 2.2vw, 1.25rem);
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 1.2px;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.9), 0 0 24px rgba(255, 105, 180, 0.7);
+  line-height: 1.35;
+}
+
+.lyric-sub {
+  display: block;
+  margin-top: 4px;
+  font-family: 'Poppins', cursive, sans-serif;
+  font-size: clamp(0.76rem, 1.7vw, 0.9rem);
+  font-style: italic;
+  color: #ffccd5;
+  letter-spacing: 0.6px;
+  opacity: 0.95;
+}
+
+/* Lado Izquierdo de la Flor */
+.lyric-card.side-left {
+  left: 4vw;
+  top: 42%;
+  transform: translateY(-50%) translateX(-20px);
+  border-left: 3.5px solid #ff758f;
+}
+
+.lyric-card.side-left.visible {
+  transform: translateY(-50%) translateX(0);
+}
+
+/* Lado Derecho de la Flor */
+.lyric-card.side-right {
+  right: 4vw;
+  top: 42%;
+  transform: translateY(-50%) translateX(20px);
+  border-right: 3.5px solid #ff758f;
+}
+
+.lyric-card.side-right.visible {
+  transform: translateY(-50%) translateX(0);
+}
+
+/* Centro Superior (Coro / Momentos especiales) */
+.lyric-card.side-center {
+  left: 50%;
+  top: 17%;
+  transform: translateX(-50%) translateY(-15px);
+  max-width: 580px;
+  width: 90%;
+  border-top: 3.5px solid #ffe66d;
+  box-shadow: 0 8px 35px rgba(0, 0, 0, 0.75), 0 0 32px rgba(255, 215, 0, 0.45);
+}
+
+.lyric-card.side-center.visible {
+  transform: translateX(-50%) translateY(0);
+}
+
+.lyric-card.side-center .lyric-main {
+  color: #fff8a6;
+  text-shadow: 0 0 15px rgba(255, 248, 166, 0.95), 0 0 30px rgba(255, 215, 0, 0.7);
+}
+
+/* Responsive Móvil */
+@media (max-width: 820px) {
+  .lyric-card.side-left,
+  .lyric-card.side-right {
+    top: 22% !important;
+    left: 50% !important;
+    right: auto !important;
+    max-width: 92%;
+    width: 92%;
+    transform: translateX(-50%) translateY(10px);
+  }
+
+  .lyric-card.side-left.visible,
+  .lyric-card.side-right.visible {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .lyric-card.side-center {
+    top: 20%;
+    max-width: 92%;
   }
 }
 
 .titulo {
-  margin-bottom: 180px;
-  font-family: "Arial Narrow", Arial, sans-serif;
-  color: yellow;
   position: absolute;
-  font-weight: bold;
-  letter-spacing: 10px;
+  top: 68px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 850px;
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  font-size: clamp(0.92rem, 2vw, 1.25rem);
+  color: #ffe867;
+  font-weight: 600;
+  letter-spacing: 1.8px;
+  line-height: 1.6;
+  text-shadow: 0 0 12px rgba(255, 232, 103, 0.8), 0 0 25px rgba(255, 200, 0, 0.5);
   opacity: 0;
-  animation: fadeIn 3s ease-in-out forwards;
+  z-index: 25;
+  animation: fadeInTitle 2.5s ease-in-out forwards;
   text-align: center;
+  pointer-events: none;
+  padding: 0.5rem 1rem;
 }
+
 @media only screen and (max-width: 600px) {
   .titulo {
-      font-size: 20px;
-      margin-bottom: 250px;
-      letter-spacing: 3px;
-      padding: 0 15px;
+    font-size: 0.88rem;
+    top: 62px;
+    letter-spacing: 1.2px;
+    line-height: 1.5;
+    padding: 0 10px;
   }
 }
 
-@keyframes fadeIn {
+@keyframes fadeInTitle {
   from {
     opacity: 0;
+    transform: translate(-50%, -15px);
   }
   to {
     opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes fadeOutTitle {
+  from {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -15px);
   }
 }
 
@@ -1618,53 +1929,3 @@ body {
   -webkit-animation-play-state: paused !important;
   animation-play-state: paused !important;
 } /*# sourceMappingURL=main.css.map */
-
-
-/* Reset de estilos básicos */
-body, h1, p {
-  margin: 0;
-  padding: 0;
-}
-
-/* Estilos generales */
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f7f7f7;
-  color: #333;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-h1 {
-  font-size: 2em;
-  line-height: 1.5;
-  margin-bottom: 20px;
-}
-
-/* Media Queries para tamaños de pantalla diferentes */
-@media screen and (max-width: 600px) {
-  /* Estilos para pantallas pequeñas */
-  h1 {
-      font-size: 1.5em;
-  }
-}
-
-@media screen and (min-width: 601px) and (max-width: 1024px) {
-  /* Estilos para pantallas medianas */
-  h1 {
-      font-size: 1.8em;
-  }
-}
-
-@media screen and (min-width: 1025px) {
-  /* Estilos para pantallas grandes */
-  h1 {
-      font-size: 2em;
-  }
-}
-
-/* Agregar más estilos según sea necesario */
