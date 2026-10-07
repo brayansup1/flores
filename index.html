@@ -25,6 +25,9 @@
     <!-- Audio de fondo: Ama de mi sol -->
     <audio id="bg-music" src="sound/Ama de mi sol.mp3" preload="auto" loop></audio>
 
+    <!-- Contenedor dinámico de letras sincronizadas (estilo Van Gogh / Elvis) -->
+    <div id="lyrics-display" class="lyrics-wrapper" aria-hidden="true"></div>
+
     <!-- Control de música flotante interactivo -->
     <div class="music-floating-container">
         <button id="music-toggle-btn" class="music-btn" title="Controlar música" aria-label="Controlar música">
@@ -190,18 +193,11 @@
     </div>
 
     <script src="effects.js"></script>
+    <script src="lyrics.js"></script>
     <script>
         const music = document.getElementById('bg-music');
         const musicToggleBtn = document.getElementById('music-toggle-btn');
         let isAudioPlaying = false;
-
-        function setStartTime() {
-            try {
-                if (music && music.currentTime < 28) {
-                    music.currentTime = 28;
-                }
-            } catch (e) { }
-        }
 
         function updateMusicUI(playing) {
             isAudioPlaying = playing;
@@ -216,7 +212,6 @@
 
         function playMusic() {
             if (!music) return;
-            setStartTime();
             music.volume = 1;
             const playPromise = music.play();
             if (playPromise !== undefined) {
@@ -232,11 +227,9 @@
 
         // 1. Intentar reproducir de inmediato (PC y navegadores con permisos)
         if (music.readyState >= 1) {
-            setStartTime();
             playMusic();
         } else {
             music.addEventListener('loadedmetadata', () => {
-                setStartTime();
                 playMusic();
             }, { once: true });
         }

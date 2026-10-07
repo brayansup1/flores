@@ -58,17 +58,20 @@ function initLetterModal() {
     if (letterBtn && letterOverlay) {
         letterBtn.addEventListener("click", () => {
             letterOverlay.classList.add("active");
+            document.body.classList.add("modal-open");
         });
 
         if (closeLetterBtn) {
             closeLetterBtn.addEventListener("click", () => {
                 letterOverlay.classList.remove("active");
+                document.body.classList.remove("modal-open");
             });
         }
 
         letterOverlay.addEventListener("click", (e) => {
             if (e.target === letterOverlay) {
                 letterOverlay.classList.remove("active");
+                document.body.classList.remove("modal-open");
             }
         });
     }
@@ -91,6 +94,7 @@ function initPhotoModal() {
                     photoModalCaption.innerText = caption.innerText;
                 }
                 photoOverlay.classList.add("active");
+                document.body.classList.add("modal-open");
             }
         });
     });
@@ -99,12 +103,14 @@ function initPhotoModal() {
         if (closePhotoBtn) {
             closePhotoBtn.addEventListener("click", () => {
                 photoOverlay.classList.remove("active");
+                document.body.classList.remove("modal-open");
             });
         }
 
         photoOverlay.addEventListener("click", (e) => {
             if (e.target === photoOverlay) {
                 photoOverlay.classList.remove("active");
+                document.body.classList.remove("modal-open");
             }
         });
     }
